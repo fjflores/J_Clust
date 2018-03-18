@@ -38,10 +38,9 @@ end
 child_scatters_wires = get(Channel_Scatter, 'Children');
 brushed_indxs_wires = find(get(child_scatters_wires(length(child_scatters_wires)), 'BrushData'));
 
-child_scatters_time = get(Time_Scatter, 'Children');
-brushed_indxs_time = find(get(child_scatters_time(length(child_scatters_time)), 'BrushData'));
+% child_scatters_time = get(Time_Scatter, 'Children');
+% brushed_indxs_time = find(get(child_scatters_time(length(child_scatters_time)), 'BrushData'));
 
-selected_pts = unique(horzcat(brushed_indxs_wires, brushed_indxs_time, polygon_indxs, comp_metric_indxs, single_metric_indxs));
-%selected_pts = horzcat(brushed_indxs_wires, brushed_indxs_time, polygon_indxs];
+selected_pts = unique(horzcat(brushed_indxs_wires, polygon_indxs, comp_metric_indxs, single_metric_indxs));
 
 end

@@ -154,7 +154,7 @@ if ispc && isequal(get(J_Clust_obj,'BackgroundColor'), get(0,'defaultUicontrolBa
 end
 
 
-function change_threshold_Callback(hObject, eventdata, handles)
+function change_threshold_Callback(J_Clust_obj, eventdata, handles)
 % hObject    handle to change_threshold (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -166,24 +166,27 @@ end
 title = 'Change Threshold Settings';
 prompt = {'Enter Threshold in |Standard Deviations|:', 'OR Enter Threshold in |uV| Value'};
 defaults = {'5', ''};
-new_thresh = inputdlg(prompt, title, [1 40], defaults);
+new_thresh = str2double(inputdlg(prompt, title, [1 40], defaults));
 
 if isempty(new_thresh)
     return
 end
 
-if ~isempty(new_thresh{1}) && ~isempty(new_thresh{2}) || new_thresh{2} < 0 || new_thresh{1} < 0
+if ~isnan(new_thresh(1)) && ~isnan(new_thresh(2)) || new_thresh(2) < 0 || new_thresh(1) < 0
     error('Inappropriate value for threshold')
 end
 
-if ~isempty(str2double(new_thresh{1}))
-    t_mult = str2double(new_thresh{1}); %threshold multiplier 
+if ~isempty(str2double(new_thresh(1)))
+    t_mult = new_thresh(1); %threshold multiplier 
+    disp(['Threshold set to ' num2str(t_mult) ' standard deviations above/below median.']);
 else
-    t_mult = str2double(new_thresh{2}); %threshold multiplier     
+    t_mult = new_thresh(2); %threshold multiplier
+    disp(['Threshold set to |' num2str(t_mult) '| uV.']);
 end
 
-handles.threshold(1) = -t_mult * mean(median(abs(filt_sig / .6745),2)); %negative threshold
-handles.threshold(2) = t_mult * mean(median(abs(filt_sig / .6745), 2)); %positive threshold
+handles.threshold(1) = -t_mult * mean(median(abs(handles.filt_sig / .6745),2)); %negative threshold
+handles.threshold(2) = t_mult * mean(median(abs(handles.filt_sig / .6745), 2)); %positive threshold
+
 
 guidata(J_Clust_obj, handles);
 

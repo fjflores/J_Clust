@@ -45,8 +45,8 @@ handles.chan_disp2 = 1; handles.feat_disp2 = 'Peak Amplitude';
 handles.feature_wires = handles.features{1};
 handles.feature_time = handles.features{1};
 
-plot_on_channel_scatter;
-plot_on_time_scatter;
+% plot_on_channel_scatter;
+% plot_on_time_scatter;
 
 brush 'k' %sets default brushing color to black
 
